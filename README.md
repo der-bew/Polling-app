@@ -34,3 +34,14 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Scaffold additions (local)
+
+I added lightweight scaffolding for the polling app during setup:
+
+- `/auth`, `/polls`, `/votes`, `/lib` folders for domain and helpers.
+- `app/login/page.tsx` - a basic login page that uses `components/auth/AuthForm`.
+- `components/polls/PollForm.tsx`, `components/polls/VoteResult.tsx` - placeholder UI.
+- `components/ui/QRCodeCard.tsx` - QR code placeholder.
+
+Extend these files when you implement auth, polls, and voting logic.
