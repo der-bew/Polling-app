@@ -10,10 +10,19 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const { signIn } = useAuth();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await signIn(email, password);
+    setError(null);
+    setLoading(true);
+    const res = await signIn(email, password);
+    setLoading(false);
+    if (res.error) {
+      setError(res.error.message ?? String(res.error));
+      return;
+    }
     router.push('/polls');
   };
 
@@ -22,9 +31,10 @@ export default function LoginPage() {
       <div className="max-w-md w-full p-6">
         <h1 className="text-2xl font-bold mb-4">Sign in</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
+          {error && <div className="text-red-600">{error}</div>}
           <Input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
           <Input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" />
-          <Button type="submit">Sign In</Button>
+          <Button type="submit" disabled={loading}>{loading ? 'Signing in...' : 'Sign In'}</Button>
         </form>
       </div>
     </div>

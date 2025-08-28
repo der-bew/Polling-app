@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { AuthProvider } from '@/components/auth/AuthProvider';
+import Providers from '@/components/Providers';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,16 +28,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AuthProvider>
-          {/* global auth header */}
-          {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-          <div>
-            {/* AuthHeader is client component showing user and sign out */}
-            {/* Import inline to avoid server/client mismatch in layout */}
-            {/* ...rendered inside AuthProvider*/}
-          </div>
-          {children}
-        </AuthProvider>
+  <Providers>{children}</Providers>
       </body>
     </html>
   );

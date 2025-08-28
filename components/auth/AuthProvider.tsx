@@ -16,8 +16,8 @@ type User = {
 type AuthContextValue = {
   user: User | null;
   loading: boolean;
-  signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string) => Promise<void>;
+  signIn: (email: string, password: string) => Promise<any>;
+  signUp: (email: string, password: string) => Promise<any>;
   signOut: () => Promise<void>;
 };
 
@@ -63,14 +63,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signIn = async (email: string, password: string) => {
     setLoading(true);
-    await supabase.auth.signInWithPassword({ email, password });
-    setLoading(false);
+  const res = await supabase.auth.signInWithPassword({ email, password });
+  setLoading(false);
+  return res;
   };
 
   const signUp = async (email: string, password: string) => {
     setLoading(true);
-    await supabase.auth.signUp({ email, password });
-    setLoading(false);
+  const res = await supabase.auth.signUp({ email, password });
+  setLoading(false);
+  return res;
   };
 
   const signOut = async () => {
