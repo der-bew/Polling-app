@@ -1,12 +1,17 @@
-// polling-app/app/polls/page.tsx
 import { Button, Card } from "@/components/ui";
 import Protected from '@/components/auth/Protected';
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+import AuthHeader from "../auth/AuthHeader";
 
-export default function PollsPage() {
+export default async function PollsPage() {
+  const supabase = createSupabaseServerClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
   return (
     <Protected>
       <div className="flex flex-col items-center justify-center min-h-screen py-2">
         <main className="flex flex-col items-center justify-center w-full flex-1 px-4 sm:px-20 text-center">
+          <AuthHeader user={user} />
           <h1 className="text-4xl font-bold mb-8">Polls</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
           {/* Placeholder Poll Card 1 */}
