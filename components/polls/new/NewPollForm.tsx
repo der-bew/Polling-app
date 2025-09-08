@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button, Input } from "../../ui";
-import { createPoll } from '@/app/polls/actions';
 
 export default function NewPollForm() {
+  const router = useRouter();
   const [question, setQuestion] = useState('');
   const [options, setOptions] = useState(['', '']);
   const [error, setError] = useState<string | null>(null);
@@ -29,9 +30,20 @@ export default function NewPollForm() {
     e.preventDefault();
     setError(null);
 
-    const result = await createPoll(question, options);
-    if (result?.error) {
+    const response = await fetch('/api/polls', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ question, options }),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
       setError(result.error);
+    } else {
+      router.push(`/polls/${result.pollId}`);
     }
   };
 
